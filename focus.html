@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FocusGrid — 25 minute study timer</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #07111a; color: #e8f1f8; text-align: center; }
+    main { max-width: 420px; margin: 40px auto; padding: 24px; }
+    h1 { letter-spacing: .08em; }
+    .time { font-size: 72px; font-weight: 800; margin: 24px 0; }
+    button { font: inherit; padding: 12px 18px; margin: 6px; border: 0; border-radius: 10px; cursor: pointer; font-weight: 700; }
+    .go { background: #4cc9f0; color: #06202b; }
+    .stop { background: #1e3547; color: #e8f1f8; }
+    p { color: #8aa0b3; }
+    a { color: #4cc9f0; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>FOCUSGRID</h1>
+    <p>One subject. Twenty-five minutes. No account.</p>
+    <div class="time" id="clock">25:00</div>
+    <button class="go" id="start" type="button">Start</button>
+    <button class="stop" id="reset" type="button">Reset</button>
+    <p>Want the full exam pack (timetable + marks tracker)?</p>
+    <p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&amp;business=enrico.pedreiro%40gmail.com&amp;item_name=GridStudy%20Exam%20Pack&amp;amount=35.00&amp;currency_code=ZAR&amp;no_shipping=1">Pay R35 / about US$2 on PayPal</a></p>
+  </main>
+  <script>
+    let left = 25 * 60, t = null;
+    const clock = document.getElementById("clock");
+    function show() {
+      const m = String(Math.floor(left / 60)).padStart(2, "0");
+      const s = String(left % 60).padStart(2, "0");
+      clock.textContent = m + ":" + s;
+    }
+    document.getElementById("start").onclick = () => {
+      if (t) return;
+      t = setInterval(() => {
+        if (left <= 0) { clearInterval(t); t = null; clock.textContent = "Done"; return; }
+        left -= 1; show();
+      }, 1000);
+    };
+    document.getElementById("reset").onclick = () => {
+      if (t) clearInterval(t);
+      t = null; left = 25 * 60; show();
+    };
+    show();
+  </script>
+</body>
+</html>
